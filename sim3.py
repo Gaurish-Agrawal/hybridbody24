@@ -11,25 +11,21 @@ last_send_time = 0
 CANVAS_WIDTH = 600
 CANVAS_HEIGHT = 400
 
-# Modes: start in Edit Mode (for drawing obstacles)
 simulation_mode = False
 
-# Simulated person parameters (blue dot)
+# Simulated person (blue dot)
 person_x = CANVAS_WIDTH / 2
 person_y = CANVAS_HEIGHT / 2
-move_speed = 3  # Pixels per simulation update
-keys_pressed = set()  # To track arrow key presses
+move_speed = 3  
+keys_pressed = set()
 
-# Obstacles are stored as tuples: (x1, y1, x2, y2, canvas_id)
 obstacles = []
 
-# Variables for drawing obstacles in Edit Mode
 drawing_obstacle = False
 obstacle_start_x = None
 obstacle_start_y = None
 current_obstacle_id = None
 
-# Candidate directions for 8-direction haptic feedback (normalized unit vectors)
 candidate_directions = {
     "N":  (0, -1),
     "NE": (1, -1),
@@ -44,18 +40,15 @@ for key, (dx, dy) in candidate_directions.items():
     norm = math.sqrt(dx**2 + dy**2)
     candidate_directions[key] = (dx / norm, dy / norm)
 
-# Haptic simulation parameters
 safe_threshold = 50    # If closer than this to an obstacle/wall, intensity increases.
 candidate_step = 20    # Pixels to test candidate moves
 
-# -----------------------------
-# Utility & Haptic Functions (unchanged)
-# -----------------------------
+
 def send_signal(command):
     """Send an HTTP GET command (non-blocking) to the haptic device."""
     try:
         full_url = arduino_url + command
-        # Debug: print(f"Sending: {command} -> {full_url}")
+        #print(f"Sending: {command} -> {full_url}")
         response = requests.get(full_url)
         result_label.config(text=f"Signal '{command}' sent.")
     except Exception as e:
@@ -142,9 +135,6 @@ def get_crash_direction_simulation(x, y):
             crash_dir = dir_name
     return crash_dir, min_distance
 
-# -----------------------------
-# Mode Toggle & Mouse Handlers (Edit Mode)
-# -----------------------------
 def toggle_mode():
     global simulation_mode, person_x, person_y, keys_pressed
     simulation_mode = not simulation_mode
@@ -201,9 +191,7 @@ def clear_obstacles():
         canvas.delete(rect_id)
     obstacles = []
 
-# -----------------------------
-# Continuous Arrow Key Handling (Simulation Mode)
-# -----------------------------
+#Arrow Keys
 def on_key_press(event):
     if event.keysym in ("Up", "Down", "Left", "Right"):
         keys_pressed.add(event.keysym)
@@ -231,9 +219,7 @@ def update_person_position():
         person_x, person_y = new_x, new_y
         canvas.coords(person_dot, person_x-5, person_y-5, person_x+5, person_y+5)
 
-# -----------------------------
-# Belt Display Functions
-# -----------------------------
+#Belt visual
 belt_motors = {}
 
 def create_belt_display():
@@ -270,9 +256,6 @@ def update_belt_display(active_direction, intensity):
         else:
             belt_canvas.itemconfig(item, fill=off_color)
 
-# -----------------------------
-# Simulation Update Loop
-# -----------------------------
 def simulation_loop():
     global last_send_time
     if simulation_mode:
@@ -293,37 +276,32 @@ def simulation_loop():
                 threading.Thread(target=send_signal, args=(command_str,), daemon=True).start()
     root.after(33, simulation_loop)
 
-# -----------------------------
-# UI Setup (Clean, Minimal & Uncluttered)
-# -----------------------------
+#ui
 root = tk.Tk()
 root.title("Indoor Environment Haptic Simulation")
 root.geometry("1000x600")
 root.configure(bg="#F5F5F5")
 root.resizable(False, False)
 
-# Main frame for side-by-side layout
+# Main frame
 main_frame = tk.Frame(root, bg="#F5F5F5")
 main_frame.pack(padx=30, pady=30)
-
 # Simulation Canvas (left)
 canvas = tk.Canvas(main_frame, width=CANVAS_WIDTH, height=CANVAS_HEIGHT, bg="#FFFFFF", bd=0, highlightthickness=0)
 canvas.grid(row=0, column=0, padx=(0,30), pady=10)
-
 # Belt Display (right) – no extra background, just the circles
 BELT_CANVAS_SIZE = 200
 belt_canvas = tk.Canvas(main_frame, width=BELT_CANVAS_SIZE, height=BELT_CANVAS_SIZE, bg="#F5F5F5", bd=0, highlightthickness=0)
 belt_canvas.grid(row=0, column=1, padx=(30,0), pady=10)
 
-# Simulated person (blue dot), initially hidden.
+#person (init hide)
 person_dot = canvas.create_oval(-10, -10, -10, -10, fill="#007ACC", outline="black", width=1.5)
 
-# Bind mouse events for obstacle drawing (Edit Mode)
 canvas.bind("<ButtonPress-1>", start_obstacle)
 canvas.bind("<B1-Motion>", update_obstacle)
 canvas.bind("<ButtonRelease-1>", end_obstacle)
 
-# Control Panel Frame (below canvases)
+#grids/allignment
 control_frame = tk.Frame(root, bg="#F5F5F5")
 control_frame.pack(pady=20)
 
