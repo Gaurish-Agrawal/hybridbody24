@@ -16,20 +16,28 @@ def lerp(a, b, t):
 
 def distance_to_color(distance):
     distance = max(20, distance)
-    #(r,g,b)
-    if distance <= 300:
-        return (255, 0, 0) #red
-    elif distance <= 600:
-        ratio = (distance - 300) / 300
-        return (255, int(ratio * 165), 0) #orange
-    elif distance <= 1200:
-        ratio = (distance - 600) / 600
-        return (255, 165 + int(ratio * 90), 0)  # Yellow
-    elif distance <= 3000:
-        ratio = (distance - 1200) / 1800
-        return (255 - int(ratio * 255), 255, 0)  # Green
+    
+    if distance < 30:
+        return (255, 0, 0)  # Very close - Red
+    elif distance < 50:
+        # Transition from Red to Orange
+        ratio = (distance - 30) / 20  # from 0 to 1
+        return (255, int(ratio * 165), 0)
+    elif distance < 100:
+        # Transition from Orange to Yellow-Green
+        ratio = (distance - 50) / 50  # from 0 to 1
+        r = 255 - int(ratio * 55)     # 255 to 200
+        g = 165 + int(ratio * 90)     # 165 to 255
+        return (r, g, 0)
+    elif distance < 1000:
+        # Smooth transition from Yellow-Green to Green
+        ratio = (distance - 100) / 900  # from 0 to 1
+        r = 200 - int(ratio * 200)      # 200 to 0
+        return (r, 255, 0)
     else:
-        return (0, 255, 0)  # Green for far
+        return (0, 255, 0)  # Very far - Green
+    
+    
 
 def distance_to_radius(distance):
     distance = max(20, distance)
