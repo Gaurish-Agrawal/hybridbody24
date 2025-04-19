@@ -16,20 +16,14 @@ import pyttsx3
 from queue import Queue
 import time
 
-# Replace with your ESP32-CAM's IP address
 url = "http://10.230.150.104:81/stream"  # Stream URL from the ESP32
 
-# Load the pre-trained model and configuration
 net = cv2.dnn.readNetFromCaffe('deploy.prototxt', 'mobilenet_iter_73000.caffemodel')
 
-# Initialize text-to-speech engine once
 engine = pyttsx3.init()
-engine.setProperty('rate', 150)  # Set speech rate (words per minute)
-
-# Queue for speech instructions
+engine.setProperty('rate', 150)
 speech_queue = Queue()
 
-# Cooldown time (in seconds) between instructions
 INSTRUCTION_COOLDOWN = 2.0
 last_instruction_time = 0
 last_zone = None  # Track the last significant position zone
@@ -44,10 +38,9 @@ else:
 
 # Set confidence, proximity, and size thresholds
 CONFIDENCE_THRESHOLD = 0.2
-MIN_BOX_AREA = 3000  # Minimum bounding box area for proximity filter
-MAX_BOX_AREA = 50000  # Maximum bounding box area
+MIN_BOX_AREA = 3000  
+MAX_BOX_AREA = 50000 
 
-# Track the last spoken instruction to avoid repeated announcements
 last_instruction = ""
 prev_boxes = []
 
@@ -74,7 +67,7 @@ while True:
             confidence = detections[0, 0, i, 2]
             idx = int(detections[0, 0, i, 1])
 
-            # Check for high confidence and specific object classes (e.g., chair or table)
+
             if confidence > CONFIDENCE_THRESHOLD and (idx == 9):  # Only detect "chair" (index 9)
                 box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
                 (startX, startY, endX, endY) = box.astype("int")
@@ -84,7 +77,7 @@ while True:
                     current_boxes.append((startX, startY, endX, endY))
                     obstacle_detected = True
 
-                    # Determine obstacle position relative to frame
+
                     box_center = (startX + endX) // 2
                     if box_center < w // 5:
                         navigation_instruction = "Obstacle far left. Move sharply right."
@@ -102,11 +95,9 @@ while True:
                         navigation_instruction = "Obstacle far right. Move sharply left."
                         current_zone = "far right"
 
-                    # Draw bounding box for visual confirmation
                     cv2.rectangle(frame, (startX, startY), (endX, endY), (0, 255, 0), 2)
                     break
 
-        # Only add the instruction to the queue if cooldown has passed and position changed
         current_time = time.time()
         if (
             obstacle_detected 
@@ -114,12 +105,11 @@ while True:
             and (current_time - last_instruction_time > INSTRUCTION_COOLDOWN or current_zone != last_zone)
         ):
             print(f"New instruction: {navigation_instruction}")
-            speech_queue.put(navigation_instruction)  # Add instruction to queue
-            last_instruction = navigation_instruction
+            speech_queue.put(navigation_instruction)
+           last_instruction = navigation_instruction
             last_instruction_time = current_time
-            last_zone = current_zone  # Update the zone
+            last_zone = current_zone  #upd.
 
-        # Process speech queue in main loop
         if not speech_queue.empty():
             instruction_to_speak = speech_queue.get()
             engine.say(instruction_to_speak)
@@ -151,7 +141,6 @@ while True:
     except Exception as e:
         print(f"An error occurred: {e}")
 
-# Release the video capture object and close windows
 cap.release()
 cv2.destroyAllWindows()
 
