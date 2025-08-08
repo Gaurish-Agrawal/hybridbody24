@@ -1,0 +1,28 @@
+Estimated Manufacturing Costs through year
+
+Item	Quantity	Unit Cost ($)	Total Cost ($)
+TCA9548A I2C Multiplexer	2	6.95	13.90
+Seeed Studio XIAO ESP32S3 Camera	1	13.99	13.99
+Teyleten Robot TOF400C VL53L1X 4M	8	15.88	127.04
+Arduino Portenta H7 Lite Connected	1	106.80	106.80
+Safety Vest Black	1	14.99	14.99
+ULN2803A Darlington Transistor Arrays	1	6.99	6.99
+6 Pcs DC Coreless Vibration Motors	2	9.99	19.98
+Heavy Duty Nylon Canvas Black	2	12.60	24.20
+2 Yards Plastic Snaps	1	6.99	6.99
+Super Glue Liquid, 2 Pack	1	2.68	2.68
+Breadboard Jumper Wires Kit	1	7.99	7.99
+24 AWG Flexible Silicone Wire, 30ft	1	15.39	15.39
+Solderable PCB Breadboard	1	9.49	9.49
+3.7V Lipo Battery 1000mAh (2 pack)	2	9.89	19.78
+MT3608 Boost Converter (Pack of 5)	1	5.95	5.95
+100ft 22AWG 4pin RGB Wire	1	13.99	13.99
+900 Pcs Heat Shrink Tubing Kit	1	6.59	6.59
+Clear Lens Glasses Frame	1	9.99	9.99
+USB-C Lithium Battery Charger (10 pack)	1	7.99	7.99
+Raspberry Pi 4 Model B	1	58.99	58.99
+Small Rare Earth Neodymium Magnets (60 pcs)	1	6.98	6.98
+Quality Assurance (30–45 mins @ $20/hr)	—	—	15.00
+Assembly Labor (2 hrs @ $15/hr)	—	—	30.00
+
+Total Cost  $545.06
