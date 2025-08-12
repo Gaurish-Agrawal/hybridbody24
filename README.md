@@ -2,10 +2,6 @@
 
 The **Hybrid Body Suit** is an assistive wearable designed to improve indoor navigation, spatial awareness, and safety for individuals with visual impairments or mobility challenges.
 
-# License
-
-This project is released under the [MIT License](LICENSE).
-
 # Acknowledgments
 
 - Inspired by challenges faced by the visually impaired community
