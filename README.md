@@ -1,7 +1,6 @@
 # Hybrid Body Suit
 
-The **Hybrid Body Suit** is an assistive wearable designed to improve indoor navigation, spatial awareness, and safety for individuals with visual impairments or mobility challenges.  
-It combines a **haptic vest** and **smart glasses** equipped with AI and a depth-sensing camera to provide real-time feedback about the user’s surroundings.
+The **Hybrid Body Suit** is an assistive wearable designed to improve indoor navigation, spatial awareness, and safety for individuals with visual impairments or mobility challenges. It combines a **haptic vest** and **smart glasses** equipped with AI and a depth-sensing camera to provide real-time feedback about the user’s surroundings.
 
 
 # Features
@@ -41,5 +40,5 @@ This project is released under the [MIT License](LICENSE).
 # Acknowledgments
 
 - Inspired by challenges faced by the visually impaired community
-- Full detailed documentation can be shared based on circumstances.
+- Full-length documentation and details can be shared based on circumstance.
 - Developed by a team at **Washington University in St. Louis** 
